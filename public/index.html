@@ -261,14 +261,21 @@
 
     <script>
       // ── Problem generator ─────────────────────────────────────────────────────
+      // Konfiguration för nivåer
       const LEVELS = {
         1: { minA: 0, maxA: 9, minB: 0, maxB: 9, ops: ['+'] },
         2: { minA: 0, maxA: 9, minB: 0, maxB: 9, ops: ['+', '−'] },
-        3: { minA: 10, maxA: 99, minB: 1, maxB: 9, ops: ['+', '−', '×'] },
+        3: { minA: 10, maxA: 99, minB: 1, maxB: 99, ops: ['+', '−', '×'] },
         4: { minA: 20, maxA: 99, minB: 2, maxB: 20, ops: ['+', '−', '×', '÷'] },
         5: { minA: 50, maxA: 999, minB: 5, maxB: 50, ops: ['+', '−', '×', '÷'] },
       };
 
+      // Sannolikheter för negativa tal
+      const negChanceSub = { 3: 0.3, 4: 0.45, 5: 0.6 };
+      const negChanceMul = { 4: 0.25, 5: 0.4 };
+      const negChanceDiv = 0.35;
+
+      // Hjälpfunktioner
       function randRange(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
@@ -277,17 +284,18 @@
         return arr[Math.floor(Math.random() * arr.length)];
       }
 
-      function maybeNegative(value, allowNegative) {
-        if (!allowNegative) return value;
-        return Math.random() < 0.5 ? value : -value;
+      function maybeNegative(value, chance) {
+        return Math.random() < chance ? -value : value;
       }
 
+      // Funktion som genererar ett problem baserat på nivå
       function generateProblem(level) {
         const cfg = LEVELS[level];
         const op = pick(cfg.ops);
         let a, b, answer;
 
         switch (op) {
+
           case '+':
             a = randRange(cfg.minA, cfg.maxA);
             b = randRange(cfg.minB, cfg.maxB);
@@ -296,33 +304,25 @@
 
           case '−':
             a = randRange(cfg.minA, cfg.maxA);
+            const chanceSub = negChanceSub[level] || 0;
 
-            if (level >= 3) {
-              const allowNegative = Math.random() < 0.4; // 40% negativa
-
-              if (allowNegative) {
-                // tvinga negativt resultat
-                b = randRange(a + 1, cfg.maxA);
-              } else {
-                // positivt resultat
-                b = randRange(cfg.minB, Math.min(a, cfg.maxB));
-              }
+            if (level >= 3 && Math.random() < chanceSub) {
+              b = randRange(a + 1, cfg.maxA);
             } else {
               b = randRange(cfg.minB, Math.min(a, cfg.maxB));
             }
-
             answer = a - b;
             break;
 
           case '×':
             const multMax = level >= 4 ? 20 : 12;
-
             a = randRange(2, Math.min(cfg.maxA, multMax));
             b = randRange(2, Math.min(cfg.maxB, multMax));
 
-            if (level >= 4) {
-              a = maybeNegative(a, true);
-              b = maybeNegative(b, true);
+            if (level >= 4 && Math.random() < (negChanceMul[level] || 0)) {
+              // Bara en operand negativ
+              if (Math.random() < 0.5) a = -a;
+              else b = -b;
             }
 
             answer = a * b;
@@ -332,13 +332,9 @@
             b = randRange(2, Math.min(cfg.maxB, 20));
             const maxQ = Math.floor(cfg.maxA / b);
             const minQ = level >= 5 ? 2 : 1;
-
             let q = randRange(minQ, Math.max(minQ, maxQ));
 
-            if (level >= 5) {
-              // slumpa tecken på resultatet
-              q = maybeNegative(q, true);
-            }
+            if (level >= 5) q = maybeNegative(q, negChanceDiv);
 
             a = b * q;
             answer = q;
@@ -346,6 +342,24 @@
         }
 
         return { a, b, op, answer };
+      }
+
+      function isTooEasy({ a, b, op }) {
+        switch (op) {
+          case '+': return a < 20 && b < 10;
+          case '−': return Math.abs(a - b) < 5;
+          case '×': return Math.abs(a) <= 5 || Math.abs(b) <= 5;
+          case '÷': return Math.abs(a) < 30 || Math.abs(b) < 2;
+          default: return false;
+        }
+      }
+
+      function generateBalancedProblem(level) {
+        let problem;
+        do {
+          problem = generateProblem(level);
+        } while (isTooEasy(problem));
+        return problem;
       }
 
       // ── State ─────────────────────────────────────────────────────────────────
