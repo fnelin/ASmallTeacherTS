@@ -1,3 +1,7 @@
+# 🤖 AI-Playgound
+An excersise in how Claude AI works and how to utilize prompting for fast development cycles.
+All code is created by AI.
+
 # 🎓 The Little Professor
 
 A CLI recreation of the classic Texas Instruments *Little Professor* educational toy (1976).
@@ -16,9 +20,11 @@ The toy works in reverse to a calculator: it generates arithmetic problems and *
 
 ```bash
 npm install
-npm run dev        # run directly with ts-node
+npm run dev        # run directly with ts-node in CLI
+npm run serve      # run as express webbserver on http://localhost:3000/
 # or
 npm run build && npm start   # compile then run
+
 ```
 
 ## Levels
