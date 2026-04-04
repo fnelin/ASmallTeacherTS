@@ -37,8 +37,12 @@ npm run build && npm start   # compile then run
 | 4 | `+ - × ÷` | 0–99 |
 | 5 | `+ - × ÷` | 0–999 |
 
-Division problems are always whole-number results (no remainders).
-Subtraction problems never produce negative results.
+Division problems are always whole-number results (no remainders).   
+Subtraction problems can produce negative results on higher levels.   
+Difficulty increases per level after intial introduction.
+
+## TODO
+- [ ]  Seperate index.htm into componentes for layout, logic etc
 
 ## License
 Copyright (C) Fredrik Nelin
