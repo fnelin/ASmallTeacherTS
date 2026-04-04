@@ -1,0 +1,17 @@
+{
+  "name": "little-professor",
+  "version": "1.0.0",
+  "description": "CLI recreation of the Texas Instruments Little Professor toy",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "ts-node": "^10.9.2",
+    "@types/node": "^20.12.0"
+  }
+}
