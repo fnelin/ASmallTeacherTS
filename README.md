@@ -2,7 +2,7 @@
 An excersise in how Claude AI works and how to utilize prompting for fast development cycles.
 All code is created by AI.
 
-# 🎓 The Little Professor
+# 🎓 A Small Teacher
 
 A CLI recreation of the classic Texas Instruments *Little Professor* educational toy (1976).
 
