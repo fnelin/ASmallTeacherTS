@@ -89,7 +89,7 @@
         </div>
 
         <!-- Level pills — active state driven by data-active attribute -->
-        <div class="flex gap-1.5">
+        <div class="flex gap-1.5 flex-wrap">
           <button data-key-level="1" data-active="true" onclick="setLevel(1)" class="flex-1 rounded py-1 font-px text-[9px] text-center cursor-pointer border transition-all
                  bg-black/25 border-white/10 text-[rgba(255,220,180,0.7)]
                  hover:bg-white/10 hover:text-white
@@ -120,6 +120,7 @@
                  data-[active=true]:bg-[rgba(255,220,100,0.25)]
                  data-[active=true]:border-[rgba(255,220,100,0.5)]
                  data-[active=true]:text-[#ffe080]">LVL 5</button>
+
         </div>
       </div>
 
@@ -261,32 +262,89 @@
     <script>
       // ── Problem generator ─────────────────────────────────────────────────────
       const LEVELS = {
-        1: { maxA: 9, maxB: 9, ops: ['+'] },
-        2: { maxA: 9, maxB: 9, ops: ['+', '−'] },
-        3: { maxA: 99, maxB: 9, ops: ['+', '−', '×'] },
-        4: { maxA: 99, maxB: 99, ops: ['+', '−', '×', '÷'] },
-        5: { maxA: 999, maxB: 99, ops: ['+', '−', '×', '÷'] },
+        1: { minA: 0, maxA: 9, minB: 0, maxB: 9, ops: ['+'] },
+        2: { minA: 0, maxA: 9, minB: 0, maxB: 9, ops: ['+', '−'] },
+        3: { minA: 10, maxA: 99, minB: 1, maxB: 9, ops: ['+', '−', '×'] },
+        4: { minA: 20, maxA: 99, minB: 2, maxB: 20, ops: ['+', '−', '×', '÷'] },
+        5: { minA: 50, maxA: 999, minB: 5, maxB: 50, ops: ['+', '−', '×', '÷'] },
       };
 
-      function rand(max) { return Math.floor(Math.random() * (max + 1)); }
-      function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+      function randRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function pick(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      function maybeNegative(value, allowNegative) {
+        if (!allowNegative) return value;
+        return Math.random() < 0.5 ? value : -value;
+      }
 
       function generateProblem(level) {
         const cfg = LEVELS[level];
         const op = pick(cfg.ops);
         let a, b, answer;
+
         switch (op) {
           case '+':
-            a = rand(cfg.maxA); b = rand(cfg.maxB); answer = a + b; break;
+            a = randRange(cfg.minA, cfg.maxA);
+            b = randRange(cfg.minB, cfg.maxB);
+            answer = a + b;
+            break;
+
           case '−':
-            a = rand(cfg.maxA);
-            b = level >= 3 ? rand(cfg.maxB) : rand(Math.min(a, cfg.maxB));
-            answer = a - b; break;
+            a = randRange(cfg.minA, cfg.maxA);
+
+            if (level >= 3) {
+              const allowNegative = Math.random() < 0.4; // 40% negativa
+
+              if (allowNegative) {
+                // tvinga negativt resultat
+                b = randRange(a + 1, cfg.maxA);
+              } else {
+                // positivt resultat
+                b = randRange(cfg.minB, Math.min(a, cfg.maxB));
+              }
+            } else {
+              b = randRange(cfg.minB, Math.min(a, cfg.maxB));
+            }
+
+            answer = a - b;
+            break;
+
           case '×':
-            a = rand(Math.min(cfg.maxA, 12)); b = rand(Math.min(cfg.maxB, 12)); answer = a * b; break;
+            const multMax = level >= 4 ? 20 : 12;
+
+            a = randRange(2, Math.min(cfg.maxA, multMax));
+            b = randRange(2, Math.min(cfg.maxB, multMax));
+
+            if (level >= 4) {
+              a = maybeNegative(a, true);
+              b = maybeNegative(b, true);
+            }
+
+            answer = a * b;
+            break;
+
           case '÷':
-            b = rand(11) + 1; const q = rand(12); a = b * q; answer = q; break;
+            b = randRange(2, Math.min(cfg.maxB, 20));
+            const maxQ = Math.floor(cfg.maxA / b);
+            const minQ = level >= 5 ? 2 : 1;
+
+            let q = randRange(minQ, Math.max(minQ, maxQ));
+
+            if (level >= 5) {
+              // slumpa tecken på resultatet
+              q = maybeNegative(q, true);
+            }
+
+            a = b * q;
+            answer = q;
+            break;
         }
+
         return { a, b, op, answer };
       }
 
