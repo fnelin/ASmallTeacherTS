@@ -33,3 +33,9 @@ npm run build && npm start   # compile then run
 
 Division problems are always whole-number results (no remainders).
 Subtraction problems never produce negative results.
+
+## License
+Copyright (C) Fredrik Nelin
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0).
+
+
