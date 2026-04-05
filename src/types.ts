@@ -20,7 +20,9 @@ export interface GameConfig {
 }
 
 export interface LevelConfig {
+  minA: number;
   maxA: number;
+  minB: number;
   maxB: number;
   operations: Operation[];
 }

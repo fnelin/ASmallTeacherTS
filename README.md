@@ -14,7 +14,7 @@ The app works in reverse to a calculator: it generates arithmetic problems and *
 - 3 attempts per problem — wrong answer shows `EEE`, just like the original
 - Answer revealed after 3 failed attempts
 - Score summary with per-problem recap after each round
-- PoC CLI interface also included carries it's own simplified problem creation logic.
+- PoC CLI interface also included carries it's own problem creation logic.
 
 ## Getting started
 
