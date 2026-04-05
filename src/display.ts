@@ -15,7 +15,7 @@ function c(color: string, text: string): string {
 export function printBanner(): void {
   console.log();
   console.log(c(YELLOW, BOLD + '  ┌─────────────────────────────────┐'));
-  console.log(c(YELLOW,        '  │      🎓  THE LITTLE PROFESSOR   │'));
+  console.log(c(YELLOW,        '  │      🎓  A Small Teacher        │'));
   console.log(c(YELLOW,        '  │     Texas Instruments  (1976)   │'));
   console.log(c(YELLOW,        '  └─────────────────────────────────┘') + RESET);
   console.log();

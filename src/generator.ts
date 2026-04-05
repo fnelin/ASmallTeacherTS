@@ -30,9 +30,9 @@ export function generateProblem(level: number): Problem {
       break;
 
     case '-':
-      // Ensure non-negative result (faithful to the original toy)
       a = rand(config.maxA);
-      b = rand(Math.min(a, config.maxB));
+      // Level 3+: allow negative results; lower levels keep result >= 0
+      b = level >= 3 ? rand(config.maxB) : rand(Math.min(a, config.maxB));
       answer = a - b;
       break;
 
