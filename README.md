@@ -4,9 +4,8 @@ All code is created by AI.
 
 # 🎓 A Small Teacher
 
-A CLI recreation of the classic Texas Instruments *Little Professor* educational toy (1976).
-
-The toy works in reverse to a calculator: it generates arithmetic problems and **you** provide the answers.
+An express reverse calculator inspired by the classic Texas Instruments *Little Professor* educational toy.
+The app works in reverse to a calculator: it generates arithmetic problems and **you** provide the answers.
 
 ## Features
 
@@ -15,12 +14,13 @@ The toy works in reverse to a calculator: it generates arithmetic problems and *
 - 3 attempts per problem — wrong answer shows `EEE`, just like the original
 - Answer revealed after 3 failed attempts
 - Score summary with per-problem recap after each round
+- PoC CLI interface also included carries it's own simplified problem creation logic.
 
 ## Getting started
 
 ```bash
 npm install
-npm run dev        # run directly with ts-node in CLI
+npm run dev        # run directly with ts-node in poc CLI
 npm run serve      # run as express webbserver on http://localhost:3000/
 # or
 npm run build && npm start   # compile then run
