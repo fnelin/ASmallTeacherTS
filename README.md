@@ -45,5 +45,5 @@ Difficulty increases per level after intial introduction.
 - [ ]  Seperate index.htm into componentes for layout, logic etc
 
 ## License
-Copyright (C) Fredrik Nelin
+Copyright (C) Fredrik Nelin   
 This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0).
