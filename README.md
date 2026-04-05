@@ -5,7 +5,8 @@ All code is created by AI.
 # 🎓 A Small Teacher
 
 An express reverse calculator inspired by the classic Texas Instruments *Little Professor* educational toy.
-The app works in reverse to a calculator: it generates arithmetic problems and **you** provide the answers.
+The app works in reverse to a calculator: it generates arithmetic problems and **you** provide the answers.   
+The Webb PoC can be viewed at gihub pages: [A Small Teacher](https://fnelin.github.io/asmallteacher/)
 
 ## Features
 
