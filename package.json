@@ -1,5 +1,5 @@
 {
-  "name": "little-professor",
+  "name": "small-teacher",
   "version": "1.0.0",
   "description": "CLI recreation of the Texas Instruments Little Professor toy",
   "main": "dist/index.js",
