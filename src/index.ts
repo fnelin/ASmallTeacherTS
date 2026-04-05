@@ -1,5 +1,5 @@
 import { ask, close } from './input';
-import { generateProblem, formatProblem } from './generator';
+import { generateBalancedProblem, formatProblem } from './generator';
 import {
   printBanner,
   printLevelMenu,
@@ -32,7 +32,7 @@ async function selectLevel(): Promise<number> {
 // ─── Single problem ───────────────────────────────────────────────────────────
 
 async function runProblem(level: number, num: number, total: number): Promise<RoundResult> {
-  const problem = generateProblem(level);
+  const problem = generateBalancedProblem(level);
   printProblemHeader(num, total, level);
 
   let attempts = 0;
