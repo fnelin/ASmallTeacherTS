@@ -43,6 +43,7 @@ Difficulty increases per level after intial introduction.
 
 ## TODO
 - [ ]  Seperate index.htm into componentes for layout, logic etc
+- [ ]  More visual feedback for right/wrong answers: Fireworks, smiley-/sadface etc.
 
 ## License
 Copyright (C) Fredrik Nelin   
